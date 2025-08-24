@@ -1,0 +1,30 @@
+@startuml C4_Context
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+title Контекст системы "Умный дом" PropDevelopment
+
+Person(owner, "Собственник/Жилец", "Взаимодействует через МП")
+Person(uk_employee, "Сотрудник УК", "Управляет доступами и настройками жильцов")
+Person(system_admin, "Системный администратор", "Отвечает за интеграции и безопасность")
+
+System(propdev_mobile, "Мобильное приложение PropDevelopment", "Основное приложение для жильцов")
+System(propdev_backend, "Backend PropDevelopment", "API + сервисы управления домами и доступами")
+
+System_Ext(intercom_system, "Интеллектуальный домофон", "Распознавание лиц, видеодомофон")
+System_Ext(gate_system, "Интеллектуальный шлагбаум", "Распознавание номеров автомобилей")
+
+System_Ext(access_control, "Система контроля доступа", "Хранение и синхронизация прав доступа")
+System_Ext(camera_system, "Система видеонаблюдения", "Видеофиксация и потоковое видео")
+
+Rel(owner, propdev_mobile, "")
+Rel(uk_employee, propdev_backend, "Настраивает жильцов и права")
+Rel(system_admin, propdev_backend, "Администрирование и интеграции")
+
+Rel(propdev_mobile, propdev_backend, "Запросы и управление", "HTTPS/REST API")
+Rel(propdev_backend, intercom_system, "Интеграция", "OAuth2/OpenID Connect")
+Rel(propdev_backend, gate_system, "Интеграция", "OAuth2/OpenID Connect")
+Rel(propdev_backend, access_control, "Синхронизация прав доступа", "API")
+Rel(intercom_system, camera_system, "Передача фото/видео")
+Rel(gate_system, camera_system, "Передача фото/видео")
+
+@enduml
